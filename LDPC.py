@@ -212,18 +212,19 @@ H = np.array([[2,7,8,4,9,5],
             [6,9,4,2,1,5]])
 
 G = compute_generator_matrix(H)
-print(G,G.shape)
+# print(G,G.shape)
 # LLRs = np.random.randn(6, 10)
 # check_to_variable_messages = np.random.randn(3, 6, 10)
 
-# # Define your message as a base-10 vector
-message_base10 = np.array([0, 7, 2])
+if __name__ == '__main__':
+    # # Define your message as a base-10 vector
+    message_base10 = np.array([0, 7, 2])
 
-# # Encode the message using the base-10 generator matrix G
-print('message_base10',message_base10)
-codeword_base10 = encode_ldpc_base10(message_base10, G)
-print("Encoded base-10 message (codeword):", codeword_base10,type(codeword_base10[0]))
+    # # Encode the message using the base-10 generator matrix G
+    print('message_base10',message_base10)
+    codeword_base10 = encode_ldpc_base10(message_base10, G)
+    print("Encoded base-10 message (codeword):", codeword_base10,type(codeword_base10[0]))
 
 
-decoded_message = decode_ldpc(codeword_base10,H,20)
-print("Decoded message:", decoded_message)
+    decoded_message = decode_ldpc(codeword_base10,H,20)
+    print("Decoded message:", decoded_message)

@@ -79,7 +79,7 @@ def decode_message(processed_samples):
     decoded_message = []
     for sound_sample in processed_samples:
         frequency, amplitude = sound_sample
-        print('frequency, amplitude',frequency, amplitude)
+        # print('frequency, amplitude',frequency, amplitude)
         # Decode the frequency-amplitude pair into the corresponding symbol
         if frequency < 100:
             continue
@@ -155,7 +155,6 @@ def process_realtime_samples(audio_data, symbols, sample_rate=SAMPLE_RATE, durat
         # Decode the processed samples
         try:
             decoded_binary_message = decode_message(processed_samples)
-            print('decoded_binary_message',decoded_binary_message)
             detected_symbols.extend(list(decoded_binary_message))
         except ValueError as e:
             print(e)

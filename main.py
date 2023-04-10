@@ -34,30 +34,30 @@ if __name__ == "__main__":
     elif args.listen:
 
         # Listen for a sound message and store the recorded samples
-        # recorded_samples = []
+        recorded_samples = []
 
-        # def record_audio(data):
-        #     recorded_samples.append(data)
+        def record_audio(data):
+            recorded_samples.append(data)
 
-        # listening_seconds = (len(read_sound_file("medium_length_message.wav")) / SAMPLE_RATE)+3
-        # print("Listening for sound message...")
-        # listen_for_sound_samples(record_audio, duration=listening_seconds)
-        # # print('recorded_samples',recorded_samples[:2])
-        # # Convert recorded_samples to a NumPy array
-        # recorded_samples = np.concatenate(recorded_samples) 
+        listening_seconds = (len(read_sound_file("medium_length_message.wav")) / SAMPLE_RATE)+3
+        print("Listening for sound message...")
+        listen_for_sound_samples(record_audio, duration=listening_seconds)
         # print('recorded_samples',recorded_samples[:2])
-        # recorded_samples = recorded_samples.astype(np.float32) / np.iinfo(np.int16).max
+        # Convert recorded_samples to a NumPy array
+        recorded_samples = np.concatenate(recorded_samples) 
+        # print('recorded_samples',recorded_samples[:2])
+        recorded_samples = recorded_samples.astype(np.float32) / np.iinfo(np.int16).max
 
-        # # Process and decode the recorded samples
-        # detected_symbols = process_realtime_samples(recorded_samples, define_symbols())
+        # Process and decode the recorded samples
+        detected_symbols = process_realtime_samples(recorded_samples, define_symbols())
         
-        # detected_symbols_str = ''.join(detected_symbols)
-        detected_symbols_str = '111789111789072511101050108658108658111789044022032795073315032795097979109452032795097979110985032795065284073315032795108658097979110985103658117583097979103658101050032795109452111789100256101050108658032795099577114181101050097979116789101050100256032795098773121418032795079119112583101050110985065284073315046620999321999321'
+        detected_symbols_str = ''.join(detected_symbols)
+        # detected_symbols_str = '111789111789072511101050108658108658111789044022032795073315032795097979109452032795097979110985032795065284073315032795108658097979110985103658117583097979103658101050032795109452111789100256101050108658032795099577114181101050097979116789101050100256032795098773121418032795079119112583101050110985065284073315046620999321999321'
         print('detected_symbols_str',detected_symbols_str)
         start_group = re.search(r'111...111',detected_symbols_str)
         end_group = re.search(r'999...999',detected_symbols_str)
-        print('start_group',start_group)
-        print('end_group',end_group)
+        # print('start_group',start_group)
+        # print('end_group',end_group)
         if start_group and end_group:
             start_index = start_group.span()[1]
             end_index = end_group.span()[0]
@@ -72,4 +72,8 @@ if __name__ == "__main__":
                 final_message = decimal_to_text(decoded_message,LDPC=True)
             else:
                 final_message = "No message detected"
+        else:
+            raise Exception("Missing the start or end code. Make sure to start listening before playing the sound message.")
         print("Decoded message:", final_message)
+        with open('message.txt','w') as f:
+            f.write(final_message)
